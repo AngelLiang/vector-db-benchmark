@@ -14,7 +14,11 @@ class QdrantSqliteUploader(BaseUploader):
 
     @classmethod
     def init_client(cls, host, distance, connection_params, upload_params):
-        cls.client = QdrantClient(host=host, prefer_grpc=True, **connection_params)
+        from .configure import client
+        cls.client = client
+        # path = connection_params.pop('path')
+        # cls.client = QdrantClient(path=path, prefer_grpc=True, **connection_params)
+        # cls.client = QdrantClient(host=host, prefer_grpc=True, **connection_params)
         cls.upload_params = upload_params
 
     @classmethod

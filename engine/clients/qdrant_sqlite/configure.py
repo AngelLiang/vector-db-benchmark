@@ -6,6 +6,8 @@ from engine.base_client.configure import BaseConfigurator
 from engine.base_client.distances import Distance
 from engine.clients.qdrant.config import QDRANT_COLLECTION_NAME
 
+client = None
+
 
 class QdrantSqliteConfigurator(BaseConfigurator):
     DISTANCE_MAPPING = {
@@ -26,6 +28,8 @@ class QdrantSqliteConfigurator(BaseConfigurator):
 
         path = connection_params.pop('path')
         self.client = QdrantClient(path=path, **connection_params)
+        global client
+        client = self.client
 
     def clean(self):
         self.client.delete_collection(collection_name=QDRANT_COLLECTION_NAME)
