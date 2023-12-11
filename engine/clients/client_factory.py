@@ -25,9 +25,11 @@ from engine.clients.weaviate import (
     WeaviateSearcher,
     WeaviateUploader,
 )
+from engine.clients.qdrant_sqlite import QdrantSqliteConfigurator, QdrantSqliteSearcher, QdrantSqliteUploader
 
 ENGINE_CONFIGURATORS = {
     "qdrant": QdrantConfigurator,
+    "qdrant-sqlite": QdrantSqliteConfigurator,
     "weaviate": WeaviateConfigurator,
     "milvus": MilvusConfigurator,
     "elasticsearch": ElasticConfigurator,
@@ -37,6 +39,7 @@ ENGINE_CONFIGURATORS = {
 
 ENGINE_UPLOADERS = {
     "qdrant": QdrantUploader,
+    "qdrant-sqlite": QdrantSqliteUploader,
     "weaviate": WeaviateUploader,
     "milvus": MilvusUploader,
     "elasticsearch": ElasticUploader,
@@ -46,6 +49,7 @@ ENGINE_UPLOADERS = {
 
 ENGINE_SEARCHERS = {
     "qdrant": QdrantSearcher,
+    "qdrant-sqlite": QdrantSqliteSearcher,
     "weaviate": WeaviateSearcher,
     "milvus": MilvusSearcher,
     "elasticsearch": ElasticSearcher,
