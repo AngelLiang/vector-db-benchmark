@@ -26,6 +26,8 @@ from engine.clients.weaviate import (
     WeaviateUploader,
 )
 from engine.clients.qdrant_sqlite import QdrantSqliteConfigurator, QdrantSqliteSearcher, QdrantSqliteUploader
+from engine.clients.lancedb import LancedbConfigurator, LancedbSearcher, LancedbUploader
+
 
 ENGINE_CONFIGURATORS = {
     "qdrant": QdrantConfigurator,
@@ -35,6 +37,7 @@ ENGINE_CONFIGURATORS = {
     "elasticsearch": ElasticConfigurator,
     "opensearch": OpenSearchConfigurator,
     "redis": RedisConfigurator,
+    "lancedb": LancedbConfigurator,
 }
 
 ENGINE_UPLOADERS = {
@@ -45,6 +48,8 @@ ENGINE_UPLOADERS = {
     "elasticsearch": ElasticUploader,
     "opensearch": OpenSearchUploader,
     "redis": RedisUploader,
+    "lancedb": LancedbUploader,
+
 }
 
 ENGINE_SEARCHERS = {
@@ -55,6 +60,7 @@ ENGINE_SEARCHERS = {
     "elasticsearch": ElasticSearcher,
     "opensearch": OpenSearchSearcher,
     "redis": RedisSearcher,
+    "lancedb": LancedbSearcher,
 }
 
 

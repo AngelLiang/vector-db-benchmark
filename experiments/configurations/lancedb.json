@@ -1,0 +1,15 @@
+[
+    {
+      "name": "lancedb",
+      "engine": "lancedb",
+      "connection_params": {
+        "path": "./lancedb.db"
+      },
+      "collection_params": {},
+      "search_params": [
+        { "parallel": 1, "params": { } }
+      ],
+      "upload_params": { "parallel": 1, "index_type": "DISKANN", "index_params": {  } }
+    }
+  ]
+  

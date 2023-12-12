@@ -18,6 +18,8 @@ ipdb = "^0.13.9"
 stopit = "^1.1.2"
 opensearch-py = "^2.3.2"
 tqdm = "^4.66.1"
+lancedb = "^0.3.4"
+autopep8 = "^2.0.4"
 
 
 [tool.poetry.dev-dependencies]
