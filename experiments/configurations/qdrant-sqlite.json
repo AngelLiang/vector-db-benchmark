@@ -10,8 +10,8 @@
         "hnsw_config": { "on_disk": true }
       },
       "search_params": [
-        { "parallel": 8, "search_params": { "hnsw_ef": 128 } }
+        { "parallel": 1, "search_params": { "hnsw_ef": 128 } }
       ],
-      "upload_params": { "parallel": 4 }
+      "upload_params": { "parallel": 1 }
     }
   ]

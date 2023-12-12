@@ -17,12 +17,15 @@ class QdrantSqliteSearcher(BaseSearcher):
 
     @classmethod
     def init_client(cls, host, distance, connection_params: dict, search_params: dict):
+        # 原始代码
         # cls.client: QdrantClient = QdrantClient(
         #     host,
         #     prefer_grpc=True,
         #     limits=httpx.Limits(max_connections=None, max_keepalive_connections=0),
         #     **connection_params
         # )
+
+        # 方案1
         # path = connection_params.pop('path')
         # cls.client: QdrantClient = QdrantClient(
         #     path=path,
@@ -30,6 +33,8 @@ class QdrantSqliteSearcher(BaseSearcher):
         #     limits=httpx.Limits(max_connections=None, max_keepalive_connections=0),
         #     **connection_params
         # )
+
+        # 方案2
         from .configure import client
         cls.client = client
         cls.search_params = search_params
