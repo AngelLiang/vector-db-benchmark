@@ -19,15 +19,4 @@ class LancedbSearcher(BaseSearcher):
     def search_one(cls, vector, meta_conditions, top) -> List[Tuple[int, float]]:
         table = cls.client.open_table(LANCEDB_COLLECTION_NAME)
         res = table.search(vector).limit(top).to_list()
-
-        # res = cls.client.search(
-        #     collection_name=LANCEDB_COLLECTION_NAME,
-        #     query_vector=vector,
-        #     query_filter=cls.parser.parse(meta_conditions),
-        #     limit=top,
-        #     search_params=rest.SearchParams(
-        #         **cls.search_params.get("search_params", {})
-        #     ),
-        # )
-
-        return [(hit.id, hit.score) for hit in res]
+        return [(hit['id'], hit['_distance']) for hit in res]
