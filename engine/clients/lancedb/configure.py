@@ -6,7 +6,7 @@ from engine.base_client.configure import BaseConfigurator
 from engine.base_client.distances import Distance
 from engine.clients.lancedb.config import LANCEDB_COLLECTION_NAME
 
-client = None
+client = lancedb.connect('lancedb.db')
 metric = None
 
 class LancedbConfigurator(BaseConfigurator):
@@ -26,9 +26,10 @@ class LancedbConfigurator(BaseConfigurator):
     def __init__(self, host, collection_params: dict, connection_params: dict):
         super().__init__(host, collection_params, connection_params)
         path = connection_params.pop('path')
-        self.client = lancedb.connect(path, **connection_params)
-        global client
-        client = self.client
+        self.client = client
+        # self.client = lancedb.connect(path, **connection_params)
+        # global client
+        # client = self.client
 
     def clean(self):
         try:

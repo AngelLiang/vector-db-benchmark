@@ -16,7 +16,8 @@ class LancedbUploader(BaseUploader):
     @classmethod
     def init_client(cls, host, distance, connection_params, upload_params):
         path = connection_params.pop('path')
-        cls.client = lancedb.connect(uri=path, **connection_params)
+        # cls.client = lancedb.connect(uri=path, **connection_params)
+        cls.client = client
         cls.upload_params = upload_params
 
     @classmethod
@@ -24,7 +25,6 @@ class LancedbUploader(BaseUploader):
         cls, ids: List[int], vectors: List[list], metadata: Optional[List[dict]]
     ):
         table = cls.client.open_table(LANCEDB_COLLECTION_NAME)
-        # table = client.open_table(LANCEDB_COLLECTION_NAME)
 
         def generate():
             for i in range(len(ids)):
