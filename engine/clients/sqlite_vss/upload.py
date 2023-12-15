@@ -1,9 +1,9 @@
 import time
 from typing import List, Optional
-
+import numpy as np
 
 from engine.base_client.upload import BaseUploader
-from engine.clients.sqlite_vss.config import SQLITE_COLLECTION_NAME
+from engine.clients.sqlite_vss.config import SQLITE_TABLE_NAME
 
 
 class SqliteVssUploader(BaseUploader):
@@ -12,24 +12,31 @@ class SqliteVssUploader(BaseUploader):
 
     @classmethod
     def init_client(cls, host, distance, connection_params, upload_params):
-        # 原始代码
-        # cls.client = QdrantClient(host=host, prefer_grpc=True, **connection_params)
-
-        # 方案1
-        # path = connection_params.pop('path')
-        # cls.client = QdrantClient(path=path, prefer_grpc=True, **connection_params)
-
-        # 方案2
         from .configure import client
         cls.client = client
-
         cls.upload_params = upload_params
 
     @classmethod
     def upload_batch(
         cls, ids: List[int], vectors: List[list], metadata: Optional[List[dict]]
     ):
-        pass
+        for i in range(len(ids)):
+            idx = ids[i]
+            vec = vectors[i]
+            meta = metadata[i] if metadata and metadata[i] else {}
+            payload = {
+                k: v
+                for k, v in meta.items()
+                if v is not None and not isinstance(v, dict)
+            }
+
+            sql = f'INSERT INTO {SQLITE_TABLE_NAME} VALUES(?, ?, ?);'
+            id = idx + 1
+            cls.client.execute(sql, (id, str(payload), np.array(vec).astype(np.float32).tobytes()))
+            insert_sql = f"""INSERT INTO {SQLITE_TABLE_NAME}_vss(rowid, content_embedding) 
+                SELECT id, content_embedding FROM {SQLITE_TABLE_NAME} WHERE id=?;"""
+            cls.client.execute(insert_sql, (id,))
+        cls.client.commit()
 
     @classmethod
     def post_upload(cls, _distance):

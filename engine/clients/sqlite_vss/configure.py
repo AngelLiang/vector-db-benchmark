@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import sqlite_vss
 
@@ -5,14 +6,16 @@ import sqlite_vss
 from benchmark.dataset import Dataset
 from engine.base_client.configure import BaseConfigurator
 from engine.base_client.distances import Distance
-from engine.clients.sqlite_vss.config import SQLITE_COLLECTION_NAME
+from engine.clients.sqlite_vss.config import SQLITE_TABLE_NAME, SQLITE_DB_NAME
 
 
-client = sqlite3.connect('sqlite_vss.db')
-client.enable_load_extension(True)
-sqlite_vss.load(client)
-cursor = client.cursor()
+def init_client():
+    client = sqlite3.connect(SQLITE_DB_NAME)
+    client.enable_load_extension(True)
+    sqlite_vss.load(client)
+    return client
 
+client = init_client()
 
 class SqliteVssConfigurator(BaseConfigurator):
     DISTANCE_MAPPING = {
@@ -31,14 +34,27 @@ class SqliteVssConfigurator(BaseConfigurator):
     def __init__(self, host, collection_params: dict, connection_params: dict):
         super().__init__(host, collection_params, connection_params)
 
-        path = connection_params.pop('path')
+        self.path = connection_params.pop('path', SQLITE_DB_NAME)
         self.client = client
-        self.cursor = cursor
 
     def clean(self):
-        self.cursor.execute(f"DROP TABLE {SQLITE_COLLECTION_NAME};")
+        global client
+        try:
+            self.client.close()
+            os.remove(SQLITE_DB_NAME)
+        except FileNotFoundError:
+            pass
+        finally:
+            client = init_client()
+            self.client = client
 
     def recreate(self, dataset: Dataset, collection_params):
         self.clean()
-        self.cursor.execute(f'create virtual table {SQLITE_COLLECTION_NAME} using vss0( a(2) factory="Flat,IDMap2", b(1)  factory="Flat,IDMap2");')
-        
+        sql = f"""
+CREATE TABLE {SQLITE_TABLE_NAME} (
+	id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, content_embedding BLOB);
+"""
+        self.client.execute(sql)
+        size = dataset.config.vector_size
+        self.client.execute(f'create virtual table {SQLITE_TABLE_NAME}_vss using vss0(content_embedding({size}));')
+        self.client.commit()

@@ -1,3 +1,3 @@
-from engine.clients.qdrant_sqlite.configure import QdrantSqliteConfigurator
-from engine.clients.qdrant_sqlite.search import QdrantSqliteSearcher
-from engine.clients.qdrant_sqlite.upload import QdrantSqliteUploader
+from engine.clients.sqlite_vss.configure import SqliteVssConfigurator
+from engine.clients.sqlite_vss.search import SqliteVssSearcher
+from engine.clients.sqlite_vss.upload import SqliteVssUploader

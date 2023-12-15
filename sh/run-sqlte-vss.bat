@@ -1,0 +1,1 @@
+poetry run python run.py --engines sqlite-vss --datasets glove-25-angular --no-skip-if-exists

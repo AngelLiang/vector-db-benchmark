@@ -1,0 +1,1 @@
+poetry run python run.py --engines sqlite-vss --datasets random-100 --no-skip-if-exists
