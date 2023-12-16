@@ -28,6 +28,8 @@ from engine.clients.weaviate import (
 from engine.clients.qdrant_sqlite import QdrantSqliteConfigurator, QdrantSqliteSearcher, QdrantSqliteUploader
 from engine.clients.lancedb import LancedbConfigurator, LancedbSearcher, LancedbUploader
 from engine.clients.sqlite_vss import SqliteVssConfigurator, SqliteVssSearcher, SqliteVssUploader
+from engine.clients.pgvector import PGVectorConfigurator, PGVectorSearcher, PGVectorUploader
+
 
 ENGINE_CONFIGURATORS = {
     "qdrant": QdrantConfigurator,
@@ -39,6 +41,7 @@ ENGINE_CONFIGURATORS = {
     "redis": RedisConfigurator,
     "lancedb": LancedbConfigurator,
     "sqlite-vss": SqliteVssConfigurator,
+    "pgvector": PGVectorConfigurator,
 }
 
 ENGINE_UPLOADERS = {
@@ -51,6 +54,7 @@ ENGINE_UPLOADERS = {
     "redis": RedisUploader,
     "lancedb": LancedbUploader,
     "sqlite-vss": SqliteVssUploader,
+    "pgvector": PGVectorUploader,
 }
 
 ENGINE_SEARCHERS = {
@@ -63,6 +67,7 @@ ENGINE_SEARCHERS = {
     "redis": RedisSearcher,
     "lancedb": LancedbSearcher,
     "sqlite-vss": SqliteVssSearcher,
+    "pgvector": PGVectorSearcher,
 }
 
 
