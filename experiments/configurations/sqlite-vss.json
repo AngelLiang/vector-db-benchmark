@@ -1,0 +1,15 @@
+[
+  {
+    "name": "sqlite-vss",
+    "engine": "sqlite-vss",
+    "connection_params": {
+      "path": "./sqlite_vss.db"
+    },
+    "collection_params": {},
+    "search_params": [
+      { "parallel": 1, "params": { } }
+    ],
+    "upload_params": { "parallel": 1, "index_type": "DISKANN", "index_params": {  } }
+  }
+]
+  
